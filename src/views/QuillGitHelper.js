@@ -14,11 +14,11 @@ function commonIndicesVersion1(version0, version1) {
     for(let element1 = index1 + 1; element1 < version1.length; element1++){
       //console.log(String(element0) + "," + String(element1));
       if(JSON.stringify(version0[element0]) == JSON.stringify(version1[element1])){
-        
+
         interestElement = element1;
         array1.push(element1);
         //console.log(JSON.stringify(interestElement));
-        
+
       }
     }
     index1 = interestElement;
@@ -34,11 +34,11 @@ function commonIndicesVersion0(version0, version1) {
     for(let element1 = index0 + 1; element1 < version1.length; element1++){
       //console.log(String(element0) + "," + String(element1));
       if(JSON.stringify(version0[element0]) == JSON.stringify(version1[element1])){
-        
+
         interestElement = element0;
         array0.push(element0);
         //console.log(JSON.stringify(interestElement));
-        
+
       }
     }
     index0 = interestElement;
@@ -99,6 +99,9 @@ function middleInsertVersion0(version0, version1, array0, array1){
   return version1;
 }
 
+/**
+ * Test all possible cases of version0 and version1
+ */
 function merging(version0, version1){
   fs.writeFile('file.json', JSON.stringify(version0), (err) => {
     if(err) console.log(err);
@@ -148,7 +151,7 @@ function uploadDelta(version1){
       version0 = JSON.parse(data);
 
       /**
-       * Goal: Create array1 containing the indices of the elements of version1 in version0 and array0 containing the indices 
+       * Goal: Create array1 containing the indices of the elements of version1 in version0 and array0 containing the indices
        * of the elements of version0 in version1
        */
       array1 = commonIndicesVersion1(version0,version1);
