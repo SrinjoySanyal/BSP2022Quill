@@ -178,30 +178,8 @@ function uploadDelta(version1){
       */
       version1 = middleInsertVersion1(version0, version1, array0, array1);
 
+      merging(version0, version1);
 
-      fs.writeFile('file.json', JSON.stringify(version0), (err) => {
-        if(err){
-          console.log(err);
-        }
-        else{
-          git.add('file.json').push().branch('Merge-branch').checkout({'-b':'Merge-branch'});
-          fs.writeFile('file.json', JSON.stringify(version1), (err) => {
-            if(err){
-              console.log(err);
-            }
-            else{
-              git.add('file.json').push().checkout({'-b':'master'}).merge("master","Merge-branch",{'-m':'"merged"'}, (msg, err) => {
-                if(err){
-                  console.log(err);
-                }
-                else{
-                  console.log('Merge successful');
-                }
-              }).deleteLocalBranch('Merge-branch');
-            }
-          });
-        }
-      });
     }
   });
 }
@@ -244,11 +222,13 @@ const commonIndices_Test1_array1 = [1,2];
 
 const commonIndices_Test1_result = JSON.stringify(commonIndicesVersion1(commonIndices_Test1_version0,commonIndices_Test1_version1));
 if (commonIndices_Test1_result === JSON.stringify(commonIndices_Test1_array1))
-  console.log("   Test 1 succeeded");
+  console.log("   Test 1.1 succeeded");
 else {
   console.log("   Test 1.1 failed");
   console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version1)} should result with ${JSON.stringify(commonIndices_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndices_Test1_result)}`);
 }
+
+
 
 console.log('     Testing commonIndicesVersion0');
 const commonIndicesVersion0_Test1_array1 = [0,1];
@@ -364,10 +344,13 @@ else {
   console.log(`   Calling displayDelta on ${JSON.stringify(Test2_version0)} should result with ${JSON.stringify(displayDelta_test)}. Instead, we get ${JSON.stringify(displayDelta_result)}`);
 }
 
-const merging1 = [
+console.log('Test 3');
+console.log('     Testing commonIndicesVersion0');
+
+const Test3_version0 = [
   {
     ops: [
-      {insert: 'Tomer'}
+      {insert: 'Sringjoy'}
     ]
   },
   {
@@ -376,18 +359,32 @@ const merging1 = [
     ]
   }
 ];
-
-const merging2 = [
+const Test3_version1 = [
   {
     ops: [
       {insert: 'Tomer'}
     ]
-  },
-  {
-    ops: [
-      {insert: 'no'}
-    ]
   }
 ];
 
-merging(merging1, merging1);
+const test3_1_test = [];
+const test3_1_result = commonIndicesVersion0(Test3_version0, Test3_version1);
+
+if(JSON.stringify(test3_1_test) == JSON.stringify(test3_1_result)){
+  console.log('     Test 3.1 succeeded');
+}
+else {
+  console.log("   Test 3.1 failed");
+  console.log(`   Calling displayDelta on ${JSON.stringify(Test3_version0)} should result with ${JSON.stringify(test3_1_test)}. Instead, we get ${JSON.stringify(test3_1_result)}`);
+}
+
+const test3_2_test = [];
+const test3_2_result = commonIndicesVersion1(Test3_version0, Test3_version1);
+
+if(JSON.stringify(test3_2_test) == JSON.stringify(test3_2_result)){
+  console.log('     Test 3.2 succeeded');
+}
+else {
+  console.log("   Test 3.2 failed");
+  console.log(`   Calling displayDelta on ${JSON.stringify(Test3_version0)} should result with ${JSON.stringify(test3_2_test)}. Instead, we get ${JSON.stringify(test3_2_result)}`);
+}
