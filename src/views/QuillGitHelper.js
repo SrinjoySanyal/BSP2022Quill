@@ -17,7 +17,7 @@ function commonIndicesVersion1(version0, version1) {
 
         interestElement = element1;
         array1.push(element1);
-        //console.log(JSON.stringify(interestElement));
+        break;
 
       }
     }
@@ -37,7 +37,7 @@ function commonIndicesVersion0(version0, version1) {
 
         interestElement = element0;
         array0.push(element0);
-        //console.log(JSON.stringify(interestElement));
+        break;
 
       }
     }
@@ -99,9 +99,6 @@ function middleInsertVersion0(version0, version1, array0, array1){
   return version1;
 }
 
-/**
- * Test all possible cases of version0 and version1
- */
 function merging(version0, version1){
   fs.writeFile('file.json', JSON.stringify(version0), (err) => {
     if(err) console.log(err);
@@ -187,7 +184,9 @@ function uploadDelta(version1){
   });
 }
 
-
+/**
+ * Test all possible cases of version0 and version1
+ */
 console.log("Test 1")
 console.log('      Testing commonIndicesVersion1');
 
@@ -370,7 +369,6 @@ const Test3_version1 = [
   }
 ];
 
-<<<<<<< HEAD
 const test3_1_test = [];
 const test3_1_result = commonIndicesVersion0(Test3_version0, Test3_version1);
 
@@ -392,6 +390,5 @@ else {
   console.log("   Test 3.2 failed");
   console.log(`   Calling displayDelta on ${JSON.stringify(Test3_version0)} should result with ${JSON.stringify(test3_2_test)}. Instead, we get ${JSON.stringify(test3_2_result)}`);
 }
-=======
+
 merging(merging1, merging1);
->>>>>>> caa22296ba00892c7394dadc96dfd6f30b7278f7
