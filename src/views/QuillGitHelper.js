@@ -391,4 +391,4 @@ else {
   console.log(`   Calling displayDelta on ${JSON.stringify(Test3_version0)} should result with ${JSON.stringify(test3_2_test)}. Instead, we get ${JSON.stringify(test3_2_result)}`);
 }
 
-merging(merging1, merging1);
+//merging(merging1, merging1);
