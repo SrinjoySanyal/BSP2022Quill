@@ -62,7 +62,7 @@ function beginningInsertVersion0(version0, version1, array0, array1){
 function beginningInsertVersion1(version0, version1, array0, array1){
   if(version1.slice(0, array1[0]).length == 0){
     if(version0.slice(0, array0[0]).length != 0){
-      for(let ops = 0; ops < version0.slice(0, array1[0]).length; ops++){
+      for(let ops = 0; ops <= version0.slice(0, array1[0]).length; ops++){
         version1.splice(ops, 0, version0.slice(0, array1[0])[ops]);
       }
     }
@@ -71,11 +71,16 @@ function beginningInsertVersion1(version0, version1, array0, array1){
 }
 
 function middleInsertVersion0(version0, version1, array0, array1){
+  //console.log(JSON.stringify(version0));
+  //console.log(JSON.stringify(version1));
   for(i = 0; i < array0.length - 1; i++){
+    //console.log(JSON.stringify((version1.slice(array1[i], array1[i + 1]))[0]));
     if(version0.slice(array0[i] + 1, array0[i + 1]).length == 0){
       if(version1.slice(array1[i] + 1, array1[i + 1]).length != 0){
-        for(let ops = array1[i] + 1; ops <= array1[i] + version1.slice(array1[i] + 1, array1[i + 1]).length; ops++){
-          version0.splice(ops, 0, version1.slice(array1[i], array1[i + 1])[ops]);
+        //console.log(JSON.stringify(version1.slice(array1[i] + 1, array1[i + 1])));
+        for(let ops = 0; ops < version1.slice(array1[i] + 1, array1[i + 1]).length; ops++){
+          //console.log(JSON.stringify((version1.slice(array1[i] + 1, array1[i + 1]))[ops - array1[i] - 1]));
+          version0.splice(array1[i] + 1 + ops, 0, version1.slice(array1[i] + 1, array1[i + 1])[ops]);
         }
       }
     }
@@ -88,7 +93,7 @@ function middleInsertVersion1(version0, version1, array0, array1){
     if(version1.slice(array1[i] + 1, array1[i + 1]).length == 0){
       if(version0.slice(array0[i] + 1, array0[i + 1]).length != 0){
         for(let ops = array0[i] + 1; ops <= version0.slice(array0[i] + 1, array0[i + 1]).length; ops++){
-          version1.splice(ops, 0, version0.slice(array0[i], array0[i + 1])[ops]);
+          version1.splice(ops, 0, version0.slice(array0[i] + 1, array0[i + 1])[ops - array0[i] - 1]);
         }
         //version0.splice(0, 0, version1.slice(0, array1[0]));
       }
@@ -791,7 +796,7 @@ const Test8_version1 = [
   }
 ];
 
-console.log('     Testing beginningInsertVersion1');
+console.log('     Testing middleInsertVersion1');
 const test8_1test = [
   {
     ops: [
@@ -822,4 +827,88 @@ else {
   console.log("     Test 8.1 failed");
   console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test8_version0)} and ${JSON.stringify(Test8_version1)} 
   should result with ${JSON.stringify(test8_1test)}. Instead, we get ${JSON.stringify(test8_1result)}`);
+}
+
+console.log('Test 9');
+const Test9_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  }
+];
+const Test9_version1 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'd'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'd'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  }
+];
+
+console.log('     Testing middleInsertVersion0');
+const test9_1test = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'd'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'd'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  }
+];
+console.log(JSON.stringify(Test9_version0));
+const test9_1result = middleInsertVersion0(Test9_version0, Test9_version1, commonIndicesVersion0(Test9_version0, Test9_version1), commonIndicesVersion1(Test9_version0, Test9_version1));
+if (JSON.stringify(test9_1test) == JSON.stringify(test9_1result))
+  console.log("     Test 9.1 succeeded");
+else {
+  console.log("     Test 9.1 failed");
+  console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test9_version0)} and ${JSON.stringify(Test9_version1)} 
+  should result with ${JSON.stringify(test9_1test)}. Instead, we get ${JSON.stringify(test9_1result)}`);
 }
