@@ -104,26 +104,26 @@ function middleInsertVersion1(version0, version1, array0, array1){
 }
 
 function merging(version0, version1){
-  Simplegit().init().addRemote('origin',"AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6")
-.checkout({"-b": "master"}).then(function(result){
+  Simplegit().init().add("file.json")
+.then(function(result){
     return new Promise(function(resolve, reject){
       fs.writeFile("./file.json", version0, "utf-8", function(err){
         if (err) reject(err);
-        else resolve();
+        else resolve("done");
       });
     });
-  }).add(["./file.json"]).commit({"-m": "commit 1"}).push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).then(
-    function(result){
+  }).commit("commit 1").push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).add("file.json")
+  .then(
+    function(res){
       return new Promise(function(resolve, reject){
         fs.writeFile("./file.json", version1, "utf-8", function(err){
           if (err) reject(err);
-          else resolve();
+          else resolve("done");
         });
       });
-    }).add(["./file.json"]).commit({"-m": "commit 2"}).push("origin", "mergeBranch/").checkout({"-b": "master"})
-    .mergeFromTo('origin', 'mergeBranch/').then(function(result){
-      return result;
-      Simplegit().branch({"-d": "mergeBranch"});
+    }).commit("commit 2").push("origin", "mergeBranch/").checkout({"-b": "master"})
+    .mergeFromTo('origin', 'mergeBranch/').then(function(r){
+      return r;
     }).catch(err => {return err;});
 }
 
@@ -918,6 +918,54 @@ else {
   console.log("     Test 9.1 failed");
   console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test9_version0)} and ${JSON.stringify(Test9_version1)} 
   should result with ${JSON.stringify(test9_1test)}. Instead, we get ${JSON.stringify(test9_1result)}`);
+}
+
+console.log('Test 10');
+const Test10_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const Test10_version1 = [
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+];
+
+console.log('     Testing commonIndicesVersion0');
+const test10_1test = [0];
+const test10_1result = commonIndicesVersion0(Test10_version0, Test10_version1);
+if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
+  console.log("     Test 10.1 succeeded");
+else {
+  console.log("     Test 10.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  should result with ${JSON.stringify(test10_1test)}. Instead, we get ${JSON.stringify(test10_1result)}`);
+}
+
+console.log('     Testing commonIndicesVersion1');
+const test10_2test = [1];
+const test10_2result = commonIndicesVersion1(Test10_version0, Test10_version1);
+if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
+  console.log("     Test 10.2 succeeded");
+else {
+  console.log("     Test 10.2 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
 const v0 = [{ops: 'a'}];
