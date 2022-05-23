@@ -1,8 +1,9 @@
+require('core-js/stable/array/flat-map');
+require('core-js/stable/object/from-entries');
+require('core-js/stable/object/from-entries');
 const fs = require('fs');
 const Simplegit = require('simple-git');
 //simpleGit().clean(simpleGit.CleanOptions.FORCE);
-
-Simplegit().init().addRemote('origin',"AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6");
 
 function commonIndicesVersion1(version0, version1) {
   let index1 = -1;
@@ -73,7 +74,7 @@ function beginningInsertVersion1(version0, version1, array0, array1){
 function middleInsertVersion0(version0, version1, array0, array1){
   //console.log(JSON.stringify(version0));
   //console.log(JSON.stringify(version1));
-  for(i = 0; i < array0.length - 1; i++){
+  for(let i = 0; i < array0.length - 1; i++){
     //console.log(JSON.stringify((version1.slice(array1[i], array1[i + 1]))[0]));
     if(version0.slice(array0[i] + 1, array0[i + 1]).length == 0){
       if(version1.slice(array1[i] + 1, array1[i + 1]).length != 0){
@@ -103,20 +104,27 @@ function middleInsertVersion1(version0, version1, array0, array1){
 }
 
 function merging(version0, version1){
-  fs.writeFile('file.json', JSON.stringify(version0), (err) => {
-    if(err) console.log(err);
-    else{
-      git.add('file.json').commit('1st part').push('https://github.com/SrinjoySanyal/BSP2022Quill.git', 'master')
-      .then(fs.writeFile('file.json', JSON.stringify(version1),(err) => {
-        if(err) console.log(err);
-        else{
-          git.pull('https://github.com/SrinjoySanyal/BSP2022Quill.git', 'master', {'--rebase': 'true'}).branch(['<Merging>'])
-          .checkoutBranch('Merging', 'master').add('file.json').commit('2nd part').push('https://github.com/SrinjoySanyal/BSP2022Quill.git')
-          .mergeFromTo('https://github.com/SrinjoySanyal/BSP2022Quill.git', 'master').then((response) => {console.log(response);}).catch((err) => {console.log(err);})
-        }
-      }));
-    }
-  });
+  Simplegit().init().addRemote('origin',"AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6")
+.checkout({"-b": "master"}).then(function(result){
+    return new Promise(function(resolve, reject){
+      fs.writeFile("./file.json", version0, "utf-8", function(err){
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+  }).add("[./file.json]").commit({"-m": "commit 1"}).push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).then(
+    function(result){
+      return new Promise(function(resolve, reject){
+        fs.writeFile("./file.json", version1, "utf-8", function(err){
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+    }).add("[./file.json]").commit({"-m": "commit 2"}).push("origin", "mergeBranch/").checkout({"-b": "master"})
+    .mergeFromTo('origin', 'mergeBranch/').then(function(result){
+      return result;
+      Simplegit().branch({"-d": "mergeBranch"});
+    }).catch(err => {return err;});
 }
 
 function displayDelta(version){
@@ -181,7 +189,7 @@ function uploadDelta(version1){
       */
       version1 = middleInsertVersion1(version0, version1, array0, array1);
 
-      merging(version0, version1);
+      //merging(version0, version1);
 
     }
   });
@@ -903,7 +911,6 @@ const test9_1test = [
     ]
   }
 ];
-console.log(JSON.stringify(Test9_version0));
 const test9_1result = middleInsertVersion0(Test9_version0, Test9_version1, commonIndicesVersion0(Test9_version0, Test9_version1), commonIndicesVersion1(Test9_version0, Test9_version1));
 if (JSON.stringify(test9_1test) == JSON.stringify(test9_1result))
   console.log("     Test 9.1 succeeded");
@@ -912,3 +919,8 @@ else {
   console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test9_version0)} and ${JSON.stringify(Test9_version1)} 
   should result with ${JSON.stringify(test9_1test)}. Instead, we get ${JSON.stringify(test9_1result)}`);
 }
+
+const v0 = [{ops: 'a'}];
+const v1 = [{ops: 'b'}];
+
+merging(v0, v1);
