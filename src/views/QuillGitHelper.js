@@ -112,7 +112,7 @@ function merging(version0, version1){
         else resolve();
       });
     });
-  }).add("[./file.json]").commit({"-m": "commit 1"}).push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).then(
+  }).add(["./file.json"]).commit({"-m": "commit 1"}).push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).then(
     function(result){
       return new Promise(function(resolve, reject){
         fs.writeFile("./file.json", version1, "utf-8", function(err){
@@ -120,7 +120,7 @@ function merging(version0, version1){
           else resolve();
         });
       });
-    }).add("[./file.json]").commit({"-m": "commit 2"}).push("origin", "mergeBranch/").checkout({"-b": "master"})
+    }).add(["./file.json"]).commit({"-m": "commit 2"}).push("origin", "mergeBranch/").checkout({"-b": "master"})
     .mergeFromTo('origin', 'mergeBranch/').then(function(result){
       return result;
       Simplegit().branch({"-d": "mergeBranch"});
