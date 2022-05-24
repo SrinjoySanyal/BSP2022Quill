@@ -2,6 +2,7 @@ require('core-js/stable/array/flat-map');
 require('core-js/stable/object/from-entries');
 require('core-js/stable/object/from-entries');
 const fs = require('fs');
+const { resolve } = require('path');
 const Simplegit = require('simple-git');
 //simpleGit().clean(simpleGit.CleanOptions.FORCE);
 
@@ -104,27 +105,34 @@ function middleInsertVersion1(version0, version1, array0, array1){
 }
 
 function merging(version0, version1){
-  Simplegit().init().add("file.json")
-.then(function(result){
-    return new Promise(function(resolve, reject){
-      fs.writeFile("./file.json", version0, "utf-8", function(err){
-        if (err) reject(err);
-        else resolve("done");
-      });
-    });
-  }).commit("commit 1").push("origin", "master").branch(['mergeBranch/']).checkout({"-b": "mergeBranch/"}).add("file.json")
-  .then(
-    function(res){
+  Simplegit()
+   .init()
+   .then(function(result, err){
+     return new Promise(function(resolve, reject){
+       fs.writeFile('folder.json', JSON.stringify(version0), 'utf-8', function(err){
+         if(err) reject(err);
+         else resolve('done');
+       })
+     })
+   })
+   .then(
+    Simplegit().add(['folder.json'])
+    .commit("more commit!")
+    .addRemote('origin', 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6')
+    .push('origin', 'master').branch({"-b": "MergeBranch/"}).checkout(["MergeBranch/"])
+    .then(function(result, err){
       return new Promise(function(resolve, reject){
-        fs.writeFile("./file.json", version1, "utf-8", function(err){
-          if (err) reject(err);
-          else resolve("done");
-        });
-      });
-    }).commit("commit 2").push("origin", "mergeBranch/").checkout({"-b": "master"})
-    .mergeFromTo('origin', 'mergeBranch/').then(function(r){
-      return r;
-    }).catch(err => {return err;});
+        fs.writeFile('./folder.json', JSON.stringify(version1), 'utf-8', function(err){
+          if(err) reject(err);
+          else resolve('done');
+        })
+      })
+    }).then(
+      Simplegit().checkout(["MergeBranch/"]).add(['folder.json']).commit('commit 2').push('origin', 'MergeBranch/')
+      .checkout(['master']).mergeFromTo('origin', 'MergeBranch').then((result) => {console.log(result)}).then(Simplegit().branch())
+      .catch(err => {console.log(err);})
+      ).catch(err => {console.log(err);})
+   ).catch(err => {console.log(err);})
 }
 
 function displayDelta(version){
@@ -968,7 +976,7 @@ else {
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
-const v0 = [{ops: 'a'}];
+const v0 = [{ops: 'xyz'}];
 const v1 = [{ops: 'b'}];
 
 merging(v0, v1);
