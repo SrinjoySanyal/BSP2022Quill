@@ -127,22 +127,31 @@ function merging(version0, version1){
     });
   }
   
-   abc().then(
-    Simplegit().add(['folder.json'])
-    .commit("more commit!")
-    .push('origin', 'master')/*.then(def()).then(
-      Simplegit().checkout({"-b": "=mergeBranch/"}).add(['folder.json']).commit("other commit").push('origin', '=mergeBranch/')
-    )*/)
-    .catch(err => {console.log(err);})
+  function handler(err){
+    console.log(err);
+    Simplegit().branch(['-D', 'merger']);
+  }
 
-    Simplegit().checkout(['-b','merger']).then(def()).then(
-      Simplegit().add(["folder.json"]).commit('test').push('origin', 'merger'))
-    .catch(err => console.log(err));
+  Simplegit().branch(['-d', 'merger']);
 
-    Simplegit().checkout(['master']);
+  abc().then(
+  Simplegit().add(['folder.json'])
+  .commit("more commit!")
+  .push('origin', 'master')/*.then(def()).then(
+    Simplegit().checkout({"-b": "=mergeBranch/"}).add(['folder.json']).commit("other commit").push('origin', '=mergeBranch/')
+  )*/)
+  .catch(err => {console.log(err);})
 
-    Simplegit().mergeFromTo('master', 'merger').then((result => console.log(result))).catch(err => console.log(err))
-    .finally(Simplegit().branch(['-d', 'merger']));
+  Simplegit().checkout(['-b','merger']);
+
+  def().then(
+    Simplegit().add(["folder.json"]).commit('test').push('origin', 'merger'))
+  .catch(err => console.log(err));
+
+  Simplegit().checkout(['master']);
+
+  Simplegit().merge(['merger']).then((result => console.log(result))).catch(err => console.log(err));
+
 }
 
 function displayDelta(version){
@@ -986,7 +995,29 @@ else {
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
-const v0 = [{ops: 'xyz'}];
-const v1 = [{ops: 'opopo'}];
+const v0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const v1 = [
+  {
+    ops: [
+      {insert: 'o'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'p'}
+    ]
+  },
+];
 
 merging(v0, v1);
