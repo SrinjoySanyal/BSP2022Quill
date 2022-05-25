@@ -4,7 +4,7 @@ require('core-js/stable/object/from-entries');
 const fs = require('fs');
 const { resolve } = require('path');
 const Simplegit = require('simple-git');
-var branch = require('create-git-branch');
+//var branch = require('create-git-branch');
 //simpleGit().clean(simpleGit.CleanOptions.FORCE);
 
 function commonIndicesVersion1(version0, version1) {
@@ -126,30 +126,23 @@ function merging(version0, version1){
       });
     });
   }
+  
    abc().then(
     Simplegit().add(['folder.json'])
     .commit("more commit!")
-    .push('origin', 'master'))
-    .then(branch('AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6', '1.0.0', 'tmp-repo').then(
-      Simplegit().checkout({"-b": "tmp-repo"}).then(def())
-      .then(Simplegit().checkout({"-b": "tmp-repo"}).add(['folder.json']).commit("another commit")
-      .push('AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6', 'tmp-repo'))
-    ))
+    .push('origin', 'master')/*.then(def()).then(
+      Simplegit().checkout({"-b": "=mergeBranch/"}).add(['folder.json']).commit("other commit").push('origin', '=mergeBranch/')
+    )*/)
     .catch(err => {console.log(err);})
-    /*
-    .then(function(result){
-      return new Promise(function(resolve, reject){
-        fs.writeFile('folder.json', JSON.stringify(version1), 'utf-8', function(err){
-          if(err) reject(err);
-          else resolve('done');
-        });
-      });
-    })*/
-    /*
-    .then(Simplegit().checkout({'-b': 'MergeBranch/'}).add(['folder.json']).commit("another commit")
-    .push('origin', 'MergeBranch/')).catch(err => console.log(err))
-   
-   */
+
+    Simplegit().checkout(['-b','merger']).then(def()).then(
+      Simplegit().add(["folder.json"]).commit('test').push('origin', 'merger'))
+    .catch(err => console.log(err));
+
+    Simplegit().checkout(['master']);
+
+    Simplegit().mergeFromTo('master', 'merger').then((result => console.log(result))).catch(err => console.log(err))
+    .finally(Simplegit().branch(['-d', 'merger']));
 }
 
 function displayDelta(version){
@@ -994,6 +987,6 @@ else {
 }
 
 const v0 = [{ops: 'xyz'}];
-const v1 = [{ops: 'xyz'}];
+const v1 = [{ops: 'opopo'}];
 
 merging(v0, v1);
