@@ -113,7 +113,7 @@ function merging(version0, version1){
      return new Promise(function(resolve, reject){
        fs.writeFile('folder.json', JSON.stringify(version0), 'utf-8', function(err){
          if(err) reject(err);
-         else resolve('done');
+         else resolve('done1');
        });
      });
    }
@@ -122,20 +122,22 @@ function merging(version0, version1){
     return new Promise(function(resolve, reject){
       fs.writeFile('folder.json', JSON.stringify(version1), 'utf-8', function(err){
         if(err) reject(err);
-        else resolve('done');
+        else resolve('done2');
       });
     });
   }
   //merger -> version 1
   //master -> version 0
+  //Simplegit().branch(['-D', 'merger']);
    abc().then(
     Simplegit().add(['folder.json'])
     .commit("more commit!")
-    .push(['origin', 'master'], () => console.log("push 1"))
-    .checkout(['-b','merger'])).then(def()).then(
-      Simplegit().add(["folder.json"]).commit('test').push(['origin', 'merger'], () => console.log("push 2"))
-      //.checkout(['master'])
-      //.mergeFromTo('origin', 'merger', ['-s', 'resolve']).then((result => console.log(result))).catch(err => console.log(err))
+    //.push(['-u', 'origin', 'master'], () => console.log("push 1"))
+    .checkout(['-b', 'merger']).push(['-u', 'origin', 'merger'])).then(def()).then(
+      Simplegit().checkout(['merger']).add(["folder.json"]).commit('test')//.push(['-u', 'origin', 'merger'], () => console.log("push 2"))
+      .checkout(['merger'])
+      .checkout(['master'])
+      .merge(['merger']).then((result => console.log(result))).catch(err => console.log(err))
     );
 }
 
@@ -980,7 +982,7 @@ else {
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
-const v0 = {ops: [{insert :'x'}]};
-const v1 = {ops: [{insert :'a'}]};
+const v0 = [{ops: [{insert :'f'}]}, {ops: [{insert :'ththth'}]}, {ops: [{insert :'opd'}]}];
+const v1 = [{ops: [{insert :'p'}]}, {ops: [{insert :'efg'}]}, {ops: [{insert :'a'}]}];
 
 merging(v0, v1);
