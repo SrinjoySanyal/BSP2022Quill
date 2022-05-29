@@ -128,16 +128,24 @@ function merging(version0, version1){
   }
   //merger -> version 1
   //master -> version 0
-  //Simplegit().branch(['-D', 'merger']);
+  //Simplegit().branch(['-d', "merger"]);
    abc().then(
     Simplegit().add(['folder.json'])
     .commit("more commit!")
     //.push(['-u', 'origin', 'master'], () => console.log("push 1"))
-    .checkout(['-b', 'merger']).push(['-u', 'origin', 'merger'])).then(def()).then(
-      Simplegit().checkout(['merger']).add(["folder.json"]).commit('test')//.push(['-u', 'origin', 'merger'], () => console.log("push 2"))
-      .checkout(['merger'])
+    .checkout(['-b', 'merger'])
+    //.push(['-u', 'origin', 'merger'])
+    ).then(def()).then(
+      Simplegit().checkout(['merger']).add(["folder.json"]).commit('test')
+      //.push(['-u', 'origin', 'merger'], () => console.log("push 2"))
+      //.checkout(['merger'])
       .checkout(['master'])
-      .merge(['merger']).then((result => console.log(result))).catch(err => console.log(err))
+      .merge(['-s', 'resolve', 'merger']).then(result => console.log(result)).then(Simplegit().push('origin', 'master')
+      .branch(['-d', "merger"])).catch(err => 
+        {
+          console.log(err);
+          Simplegit().merge(['--abort']).checkout('master').push('origin', 'master');
+        })
     );
 }
 
@@ -982,7 +990,7 @@ else {
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
-const v0 = [{ops: [{insert :'f'}]}, {ops: [{insert :'ththth'}]}, {ops: [{insert :'opd'}]}];
-const v1 = [{ops: [{insert :'p'}]}, {ops: [{insert :'efg'}]}, {ops: [{insert :'a'}]}];
+const v0 = {ops: [{insert :'c'}]};
+const v1 = {ops: [{insert :'d'}]};
 
 merging(v0, v1);
