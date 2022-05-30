@@ -990,6 +990,32 @@ else {
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
+console.log('Test 11');
+const Test11_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const Test11_version1 = [];
+
+console.log('     Testing commonIndicesVersion0');
+const test11_1test = [];
+const test11_1result = commonIndicesVersion0(Test11_version0, Test11_version1);
+if (JSON.stringify(test11_1test) == JSON.stringify(test11_1result))
+  console.log("     Test 11.1 succeeded");
+else {
+  console.log("     Test 10.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test11_version0)} and ${JSON.stringify(Test11_version1)} 
+  should result with ${JSON.stringify(test11_1test)}. Instead, we get ${JSON.stringify(test11_1result)}`);
+}
+
 const v0 = {ops: [{insert :'c'}]};
 const v1 = {ops: [{insert :'d'}]};
 
