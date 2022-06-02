@@ -1,11 +1,6 @@
-require('core-js/stable/array/flat-map');
-require('core-js/stable/object/from-entries');
-require('core-js/stable/object/from-entries');
 const fs = require('fs');
 const { resolve } = require('path');
 const Simplegit = require('simple-git');
-//var branch = require('create-git-branch');
-//simpleGit().clean(simpleGit.CleanOptions.FORCE);
 
 function commonIndicesVersion1(version0, version1) {
   let index1 = -1;
@@ -23,7 +18,6 @@ function commonIndicesVersion1(version0, version1) {
       }
     }
     index1 = interestElement;
-    //index1 += 1;
   }
   return array1;
 }
@@ -44,8 +38,6 @@ function commonIndicesVersion0(version0, version1) {
       }
     }
     index0 = interestElement;
-    //index0 += 1;
-    //console.log(index0);
   }
   return array0;
 }
@@ -74,15 +66,11 @@ function beginningInsertVersion1(version0, version1, array0, array1){
 }
 
 function middleInsertVersion0(version0, version1, array0, array1){
-  //console.log(JSON.stringify(version0));
-  //console.log(JSON.stringify(version1));
+
   for(let i = 0; i < array0.length - 1; i++){
-    //console.log(JSON.stringify((version1.slice(array1[i], array1[i + 1]))[0]));
     if(version0.slice(array0[i] + 1, array0[i + 1]).length == 0){
       if(version1.slice(array1[i] + 1, array1[i + 1]).length != 0){
-        //console.log(JSON.stringify(version1.slice(array1[i] + 1, array1[i + 1])));
         for(let ops = 0; ops < version1.slice(array1[i] + 1, array1[i + 1]).length; ops++){
-          //console.log(JSON.stringify((version1.slice(array1[i] + 1, array1[i + 1]))[ops - array1[i] - 1]));
           version0.splice(array1[i] + 1 + ops, 0, version1.slice(array1[i] + 1, array1[i + 1])[ops]);
         }
       }
@@ -95,8 +83,8 @@ function middleInsertVersion1(version0, version1, array0, array1){
   for(i = 0; i < array1.length - 1; i++){
     if(version1.slice(array1[i] + 1, array1[i + 1]).length == 0){
       if(version0.slice(array0[i] + 1, array0[i + 1]).length != 0){
-        for(let ops = array0[i] + 1; ops <= version0.slice(array0[i] + 1, array0[i + 1]).length; ops++){
-          version1.splice(ops, 0, version0.slice(array0[i] + 1, array0[i + 1])[ops - array0[i] - 1]);
+        for(let ops = 0; ops < version0.slice(array0[i] + 1, array0[i + 1]).length; ops++){
+          version1.splice(array0[i] + 1 + ops, 0, version0.slice(array0[i] + 1, array0[i + 1])[ops]);
         }
         //version0.splice(0, 0, version1.slice(0, array1[0]));
       }
@@ -105,48 +93,26 @@ function middleInsertVersion1(version0, version1, array0, array1){
   return version1;
 }
 
-function merging(version0, version1){
-  //Simplegit()
-   //.init()
-   //.addRemote('origin', 'AAAAB3NzaC1yc2EAAAADAQABAAABgQDBP5/z6tQFL23ryPNJ3NORD9vs5NtZwVNK9wYsoJDnEMHnXSF/9kXq2LUJKvxiVTpmLu1mQoqrLneEm2vmaqSahD/xMfM7BU50hynwM5JVEbjTk1AMt4hWyaxsOXrLn54/0mwvmzii5zb0rj1vQ09D2X/g3thZ3uxdYOppxXnoIfAMWtRRYUTDxJW0HQ0q4LZ99J2H78RgX6MYsmpWQ7/FYDsFcF8AGSAPWOBQDRP6Yt/u9VaVvrV6+POwXUkD1heZuZMZjcVCFgOcbQaR+lDEsN3cqk9sI5AMKX1PYxGvd1cdHkZzv+a/4SA/h3oQG5+OHB3R6WCMV3GVuYU+vM0eQ0OMLh7xP0YDj7U0AfBgz/f3uTy2X0QzCywKpTKjzmzTcyO+KLf4o1y+yr/Ft69IJ6whRqgbiFYufZBURSfXlterCZ3bnNY6qI8jlCOMlp+Z/uzFIxoajsTskXdRuJc1BegO36Jq28iRtc3SrfE8N7ey1/hImT+YoLKh1I7ZYcU= srinjoy@LAPTOP-96E147H6')
-   function abc(){
-     return new Promise(function(resolve, reject){
-       fs.writeFile('folder.json', JSON.stringify(version0), 'utf-8', function(err){
-         if(err) reject(err);
-         else resolve('done1');
-       });
-     });
-   }
-
-   function def(){
-    return new Promise(function(resolve, reject){
-      fs.writeFile('folder.json', JSON.stringify(version1), 'utf-8', function(err){
-        if(err) reject(err);
-        else resolve('done2');
-      });
-    });
+function endInsertVersion0(version0, version1, array0, array1){
+  if(version0.slice(array0[array0.length - 1] + 1, version0.length).length == 0){
+    if(version1.slice(array1[array1.length - 1] + 1, version1.length).length != 0){
+      for(let ops = 0; ops < version1.slice(array1[array1.length - 1] + 1, version1.length).length; ops++){
+        version0.splice(version0.length + ops, 0, version1.slice(array1[array1.length - 1] + 1, version1.length)[ops]);
+      }
+    }
   }
-  //merger -> version 1
-  //master -> version 0
-  //Simplegit().branch(['-d', "merger"]);
-   abc().then(
-    Simplegit().add(['folder.json'])
-    .commit("more commit!")
-    //.push(['-u', 'origin', 'master'], () => console.log("push 1"))
-    .checkout(['-b', 'merger'])
-    //.push(['-u', 'origin', 'merger'])
-    ).then(def()).then(
-      Simplegit().checkout(['merger']).add(["folder.json"]).commit('test')
-      //.push(['-u', 'origin', 'merger'], () => console.log("push 2"))
-      //.checkout(['merger'])
-      .checkout(['master'])
-      .merge(['-s', 'resolve', 'merger']).then(result => console.log(result)).then(Simplegit().push('origin', 'master')
-      .branch(['-d', "merger"])).catch(err => 
-        {
-          console.log(err);
-          Simplegit().merge(['--abort']).checkout('master').push('origin', 'master');
-        })
-    );
+  return version0;
+}
+
+function endInsertVersion1(version0, version1, array0, array1){
+  if(version1.slice(array1[array1.length - 1] + 1, version1.length).length == 0){
+    if(version0.slice(array0[array0.length - 1] + 1, version0.length).length != 0){
+      for(let ops = 0; ops < version0.slice(array0[array0.length - 1] + 1, version0.length).length; ops++){
+        version1.splice(version1.length + ops, 0, version0.slice(array0[array0.length - 1] + 1, version0.length)[ops]);
+      }
+    }
+  }
+  return version1;
 }
 
 function displayDelta(version){
@@ -156,7 +122,6 @@ function displayDelta(version){
     version.splice(i, 0, {ops: [{insert: '\n'}]});
   }
   version.push({ops: [{insert: '\n'}]});
-  //alert(JSON.stringify(version));
   for(let j = 0; j < version.length; j++){
     for(let k = 0; k < version[j].ops.length; k++){
       finalDelta.push(version[j].ops[k]);
@@ -170,57 +135,137 @@ function displayDelta(version){
  * Version 0: in git
  * Version 1: changed document
  */
-function uploadDelta(version1){
-  let version0 = new Array();
-  fs.readFile('file.json',(err, data) => {
-    if(err){
-      fs.writeFile('file.json', JSON.stringify(version1), (err) => {console.log(err);});
-      git.add(['file.json']).push();
-    }
-    else{
-      version0 = JSON.parse(data);
+function getCurrentNumber(){
 
-      /**
-       * Goal: Create array1 containing the indices of the elements of version1 in version0 and array0 containing the indices
-       * of the elements of version0 in version1
-       */
-      array1 = commonIndicesVersion1(version0,version1);
-      array0 = commonIndicesVersion0(version0,version1);
+  function setCurrentNumber(number){
+    //console.log("This " + num);
+    return new Promise(function(resolve, reject){
+      fs.writeFile('versionNum.txt', String(parseInt(number)), 'utf-8', (err) => {
+        if(err) reject(err);
+        else{resolve("finish");}
+      });
+    })
+    
+  } 
+  //var numb = 0;
+  let numb = fs.readFileSync('versionNum.txt', 'utf-8');
+  console.log(numb);
+  let num = parseInt(numb) + 1;
+  console.log(num);
 
-      /*
-      If some ops had been inserted in the beginning of Version1 but not of Version 0,
-      then those ops are added to the beginning of Version0
-      */
-      version0 = beginningInsertVersion0(version0, version1, array0, array1);
+  setCurrentNumber(num)
+  .then(Simplegit().checkout('master').add(['versionNum.txt']).commit('commit').push('origin', 'master'))
+  .then(console.log('done here')).catch((err) => {if(err) throw err;});
 
-      /*
-      If some ops had been inserted in the beginning of Version0 but not of Version1,
-      then those ops are added to the beginning of Version1
-      */
-      version1 = beginningInsertVersion1(version0, version1, array0, array1);
-
-      /*
-      If some ops had been inserted in the middle of Version1 but not of Version0,
-      then those ops are added to the beginning of Version0
-      */
-      version0 = middleInsertVersion0(version0, version1, array0, array1);
-
-      /*
-      If some ops had been inserted in the middle of Version0 but not of Version1,
-      then those ops are added to the beginning of Version1
-      */
-      version1 = middleInsertVersion1(version0, version1, array0, array1);
-
-      //merging(version0, version1);
-
-    }
-  });
+  return num;
 }
 
+function getCurrentVersion(num){
+  var version0 = []
+
+  Simplegit().checkout(['-b', 'branch' + String(num)]).checkout('master');
+  fs.readFile('folder.json', 'utf-8', (err, data) => {
+    if(data) version0 = JSON.parse(data);
+  });
+
+  return version0;
+}
+
+function modifyVersion0(version0, version1){
+  let a0 = commonIndicesVersion0(version0, version1);
+  let a1 = commonIndicesVersion1(version0, version1);
+  version0 = beginningInsertVersion0(version0, version1, a0, a1);
+  version0 = middleInsertVersion0(version0, version1, a0, a1);
+  version0 = endInsertVersion0(version0, version1, a0, a1);
+  return version0;
+}
+
+function modifyVersion1(version0, version1){
+  let a0 = commonIndicesVersion0(version0, version1);
+  let a1 = commonIndicesVersion1(version0, version1);
+  version1 = beginningInsertVersion1(version0, version1, a0, a1);
+  version1 = middleInsertVersion1(version0, version1, a0, a1);
+  version1 = endInsertVersion1(version0, version1, a0, a1);
+  return version1;
+}
+//Problem here to solve
+function getVersion0(){
+  var output;
+  Simplegit().checkout('master');
+  output = fs.readFileSync('folder.json', 'utf-8');
+  console.log("output " + output);
+  return JSON.parse(output);
+}
+
+function merging(num, modifiedVersion){
+  function masterPush(v0){
+    return new Promise(function(resolve, reject){
+      fs.writeFile('folder.json', JSON.stringify(v0), 'utf-8', function(err){
+        if(err) reject(err);
+        else resolve('done1');
+      });
+    });
+  }
+
+  function branchPush(v1){
+    return new Promise(function(resolve, reject){
+      fs.writeFile('folder.json', JSON.stringify(v1), 'utf-8', function(err){
+        if(err) reject(err);
+        else resolve('done2');
+      });
+    });
+  }
+
+  if(num == 1){
+    Simplegit().checkout('branch' + String(num))
+    .then(branchPush(modifiedVersion))
+    .then(
+      Simplegit()
+      .add(['folder.json'])
+      .commit('branch1')
+    ).then(
+      Simplegit()
+      .checkout('master')
+      .merge(['branch' + String(num)])
+      .then((result) => console.log(result)).catch((err) => console.log(err))
+    )
+    .then(Simplegit().add(['folder.json']).commit('merging').push('origin', 'master'));
+  }
+  
+  if(num > 1){
+    let v0 = getVersion0();
+    console.log(JSON.stringify(v0));
+    v0 = modifyVersion0(v0, modifiedVersion);
+    console.log(JSON.stringify(v0));
+    let v1 = modifyVersion1(v0, modifiedVersion);
+    console.log(JSON.stringify(v1));
+    masterPush(v0).then(
+      Simplegit()
+      .checkout('master')
+      .add(['folder.json'])
+      .commit('master' + String(num))
+      .checkout('branch' + String(num))
+    ).then(branchPush(v1)).then(
+      Simplegit()
+      .checkout('branch' + String(num))
+      .add(['folder.json'])
+      .commit('branch' + String(num))
+      .checkout('master')
+      .merge(['-m', 'merged', 'branch' + String(num)]).then((result) => console.log(result)).catch((err) => {
+        console.log(err);
+        Simplegit().merge(['--abort'])
+      })
+    ).then(Simplegit().add(['folder.json']).commit('merging').push('origin', 'master'));
+  }
+}
+
+function exit(num){
+  Simplegit().checkout('master').branch(['-D', 'branch' + String(num)]);
+}
 /**
  * Test all possible cases of version0 and version1
  */
-console.log("Test 1")
+console.log("Test 1");
 console.log('      Testing commonIndicesVersion1');
 
 const commonIndices_Test1_version0 = [
@@ -858,7 +903,7 @@ else {
   console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test8_version0)} and ${JSON.stringify(Test8_version1)} 
   should result with ${JSON.stringify(test8_1test)}. Instead, we get ${JSON.stringify(test8_1result)}`);
 }
-
+//console.log([].length);
 console.log('Test 9');
 const Test9_version0 = [
   {
@@ -1016,7 +1061,77 @@ else {
   should result with ${JSON.stringify(test11_1test)}. Instead, we get ${JSON.stringify(test11_1result)}`);
 }
 
-const v0 = {ops: [{insert :'c'}]};
-const v1 = {ops: [{insert :'d'}]};
+console.log('Test 12');
+const Test12_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const Test12_version1 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  }
+];
 
-merging(v0, v1);
+console.log('     Testing commonIndicesVersion0');
+const test12_1test = [0];
+const test12_1result = commonIndicesVersion0(Test12_version0, Test12_version1);
+if (JSON.stringify(test12_1test) == JSON.stringify(test12_1result))
+  console.log("     Test 12.1 succeeded");
+else {
+  console.log("     Test 12.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test12_version0)} and ${JSON.stringify(Test12_version1)} 
+  should result with ${JSON.stringify(test12_1test)}. Instead, we get ${JSON.stringify(test12_1result)}`);
+}
+
+console.log('     Testing endInsertVersion1');
+const test12_2test = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const test12_2result = endInsertVersion1(Test12_version0, Test12_version1, [0], [0]);
+if (JSON.stringify(test12_2test) == JSON.stringify(test12_2result))
+  console.log("     Test 12.2 succeeded");
+else {
+  console.log("     Test 12.2 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test12_version0)} and ${JSON.stringify(Test12_version1)} 
+  should result with ${JSON.stringify(test12_2test)}. Instead, we get ${JSON.stringify(test12_2result)}`);
+}
+
+console.log("Test 13")
+
+const v1 = [{ops: [{insert :'a'}]}, {ops: [{insert :'b'}]}];
+const v2 = [{ops: [{insert :'b'}]}, {ops: [{insert :'c'}]}];
+
+//let n1 = getCurrentNumber();
+//console.log("This is1 " + n1);
+//let display1 = getCurrentVersion(n1);
+//console.log(JSON.stringify(display1));
+//let n2 = getCurrentNumber();
+//console.log("This is2 " + n2);
+//let display2 = getCurrentVersion(n2);
+//console.log(JSON.stringify(display2));
+
+//
+//
+
+merging(1, v1);
+//merging(n2, v2);
+
