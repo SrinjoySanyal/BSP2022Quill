@@ -5,7 +5,7 @@ const Simplegit = require('simple-git');
 function commonIndicesVersion1(version0, version1) {
   let index1 = -1;
   let array1 = [];
-  let interestElement;
+  let interestElement = -1;
   for(let element0 = 0; element0 < version0.length; element0++){
     for(let element1 = index1 + 1; element1 < version1.length; element1++){
       //console.log(String(element0) + "," + String(element1));
@@ -25,7 +25,7 @@ function commonIndicesVersion1(version0, version1) {
 function commonIndicesVersion0(version0, version1) {
   let index0 = -1;
   let array0 = [];
-  let interestElement;
+  let interestElement = -1;
   for(let element0 = 0; element0 < version0.length; element0++){
     for(let element1 = index0 + 1; element1 < version1.length; element1++){
       //console.log(String(element0) + "," + String(element1));
@@ -174,19 +174,27 @@ function getCurrentVersion(num){
 function modifyVersion0(version0, version1){
   let a0 = commonIndicesVersion0(version0, version1);
   let a1 = commonIndicesVersion1(version0, version1);
-  version0 = beginningInsertVersion0(version0, version1, a0, a1);
-  version0 = middleInsertVersion0(version0, version1, a0, a1);
-  version0 = endInsertVersion0(version0, version1, a0, a1);
-  return version0;
+  let ver0 = beginningInsertVersion0(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver0));
+  ver0 = middleInsertVersion0(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver0));
+  ver0 = endInsertVersion0(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver0));
+  return ver0;
 }
 
 function modifyVersion1(version0, version1){
   let a0 = commonIndicesVersion0(version0, version1);
+  console.log(JSON.stringify(a0));
   let a1 = commonIndicesVersion1(version0, version1);
-  version1 = beginningInsertVersion1(version0, version1, a0, a1);
-  version1 = middleInsertVersion1(version0, version1, a0, a1);
-  version1 = endInsertVersion1(version0, version1, a0, a1);
-  return version1;
+  console.log(JSON.stringify(a1));
+  let ver1 = beginningInsertVersion1(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver1));
+  ver1 = middleInsertVersion1(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver1));
+  ver1 = endInsertVersion1(version0, version1, a0, a1);
+  console.log(JSON.stringify(ver1));
+  return ver1;
 }
 //Problem here to solve
 function getVersion0(){
@@ -217,6 +225,7 @@ function merging(num, modifiedVersion){
   }
 
   if(num == 1){
+    console.log("path1");
     Simplegit().checkout('branch' + String(num))
     .then(branchPush(modifiedVersion))
     .then(
@@ -233,6 +242,7 @@ function merging(num, modifiedVersion){
   }
   
   if(num > 1){
+    console.log("path2");
     let v0 = getVersion0();
     console.log(JSON.stringify(v0));
     v0 = modifyVersion0(v0, modifiedVersion);
@@ -1115,6 +1125,54 @@ else {
   should result with ${JSON.stringify(test12_2test)}. Instead, we get ${JSON.stringify(test12_2result)}`);
 }
 
+console.log('Test 14');
+const Test14_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+const Test14_version1 = [
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  },
+];
+
+console.log('     Testing commonIndicesVersion0');
+const test14_1test = [1];
+const test14_1result = commonIndicesVersion0(Test14_version0, Test14_version1);
+if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
+  console.log("     Test 14.1 succeeded");
+else {
+  console.log("     Test 14.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  should result with ${JSON.stringify(test10_1test)}. Instead, we get ${JSON.stringify(test10_1result)}`);
+}
+
+console.log('     Testing commonIndicesVersion1');
+const test14_2test = [0];
+const test14_2result = commonIndicesVersion1(Test14_version0, Test14_version1);
+if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
+  console.log("     Test 14.2 succeeded");
+else {
+  console.log("     Test 14.2 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
+}
+
 console.log("Test 13")
 
 const v1 = [{ops: [{insert :'a'}]}, {ops: [{insert :'b'}]}];
@@ -1132,6 +1190,6 @@ const v2 = [{ops: [{insert :'b'}]}, {ops: [{insert :'c'}]}];
 //
 //
 
-merging(1, v1);
+//merging(2, v2);
 //merging(n2, v2);
 
