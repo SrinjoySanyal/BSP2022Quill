@@ -1,1 +1,1 @@
-[{"ops":[{"insert":"b"}]},{"ops":[{"insert":"c"}]}]
+[{"ops":[{"insert":"a"}]},{"ops":[{"insert":"b"}]},{"ops":[{"insert":"c"}]},{"ops":[{"insert":"d"}]}]
