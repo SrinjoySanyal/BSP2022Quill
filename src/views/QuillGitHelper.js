@@ -4,13 +4,13 @@ const simpleGit = require('simple-git');
 
 const Simplegit = simpleGit('/home/srinjoy/temp', { binary: 'git' });
 
-function commonIndicesVersion1(version0, version1) {
+function commonIndicesVersion1(version0, version2) {
   let index1 = -1;
   let array1 = [];
   let interestElement = -1;
   for(let element0 = 0; element0 < version0.length; element0++){
-    for(let element1 = index1 + 1; element1 < version1.length; element1++){
-      if(JSON.stringify(version0[element0]) == JSON.stringify(version1[element1])){
+    for(let element1 = index1 + 1; element1 < version2.length; element1++){
+      if(JSON.stringify(version0[element0]) == JSON.stringify(version2[element1])){
 
         interestElement = element1;
         array1.push(element1);
@@ -23,14 +23,14 @@ function commonIndicesVersion1(version0, version1) {
   return array1;
 }
 
-function commonIndicesVersion0(version0, version1) {
+function commonIndicesVersion0(version0, version2) {
   let index0 = -1;
   let array0 = [];
   let interestElement = -1;
   for(let element0 = 0; element0 < version0.length; element0++){
-    for(let element1 = index0 + 1; element1 < version1.length; element1++){
+    for(let element1 = index0 + 1; element1 < version2.length; element1++){
       //console.log(String(element0) + "," + String(element1));
-      if(JSON.stringify(version0[element0]) == JSON.stringify(version1[element1])){
+      if(JSON.stringify(version0[element0]) == JSON.stringify(version2[element1])){
 
         interestElement = element1;
         array0.push(element0);
@@ -44,35 +44,34 @@ function commonIndicesVersion0(version0, version1) {
 }
 
 
-function beginningInsertVersion0(version0, version1, array0, array1){
+function beginningInsertVersion0(version0, version2, array0, array1){
   if(version0.slice(0, array0[0]).length == 0){
-    if(version1.slice(0, array1[0]).length != 0){
-      for(let ops = 0; ops < version1.slice(0, array1[0]).length; ops++){
-        version0.splice(ops, 0, version1.slice(0, array1[0])[ops]);
+    if(version2.slice(0, array1[0]).length != 0){
+      for(let ops = 0; ops < version2.slice(0, array1[0]).length; ops++){
+        version0.splice(ops, 0, version2.slice(0, array1[0])[ops]);
       }
     }
   }
   return version0;
 }
 
-function beginningInsertVersion1(version0, version1, array0, array1){
-  if(version1.slice(0, array1[0]).length == 0){
+function beginningInsertVersion1(version0, version2, array0, array1){
+  if(version2.slice(0, array1[0]).length == 0){
     if(version0.slice(0, array0[0]).length != 0){
       for(let ops = 0; ops < version0.slice(0, array0[0]).length; ops++){
-        version1.splice(ops, 0, version0.slice(0, array0[0])[ops]);
+        version2.splice(ops, 0, version0.slice(0, array0[0])[ops]);
       }
     }
   }
-  return version1;
+  return version2;
 }
 
-function middleInsertVersion0(version0, version1, array0, array1){
-
+function middleInsertVersion0(version0, version2, array0, array1){
   for(let i = 0; i < array0.length - 1; i++){
     if(version0.slice(array0[i] + 1, array0[i + 1]).length == 0){
-      if(version1.slice(array1[i] + 1, array1[i + 1]).length != 0){
-        for(let ops = 0; ops < version1.slice(array1[i] + 1, array1[i + 1]).length; ops++){
-          version0.splice(array1[i] + 1 + ops, 0, version1.slice(array1[i] + 1, array1[i + 1])[ops]);
+      if(version2.slice(array1[i] + 1, array1[i + 1]).length != 0){
+        for(let ops = 0; ops < version2.slice(array1[i] + 1, array1[i + 1]).length; ops++){
+          version0.splice(array1[i] + 1 + ops, 0, version2.slice(array1[i] + 1, array1[i + 1])[ops]);
         }
       }
     }
@@ -80,40 +79,40 @@ function middleInsertVersion0(version0, version1, array0, array1){
   return version0;
 }
 
-function middleInsertVersion1(version0, version1, array0, array1){
+function middleInsertVersion1(version0, version2, array0, array1){
   for(i = 0; i < array1.length - 1; i++){
-    if(version1.slice(array1[i] + 1, array1[i + 1]).length == 0){
+    if(version2.slice(array1[i] + 1, array1[i + 1]).length == 0){
       if(version0.slice(array0[i] + 1, array0[i + 1]).length != 0){
         for(let ops = 0; ops < version0.slice(array0[i] + 1, array0[i + 1]).length; ops++){
-          version1.splice(array0[i] + 1 + ops, 0, version0.slice(array0[i] + 1, array0[i + 1])[ops]);
+          version2.splice(array0[i] + 1 + ops, 0, version0.slice(array0[i] + 1, array0[i + 1])[ops]);
         }
-        //version0.splice(0, 0, version1.slice(0, array1[0]));
+        //version0.splice(0, 0, version2.slice(0, array1[0]));
       }
     }
   }
-  return version1;
+  return version2;
 }
 
-function endInsertVersion0(version0, version1, array0, array1){
+function endInsertVersion0(version0, version2, array0, array1){
   if(version0.slice(array0[array0.length - 1] + 1, version0.length).length == 0){
-    if(version1.slice(array1[array1.length - 1] + 1, version1.length).length != 0){
-      for(let ops = 0; ops < version1.slice(array1[array1.length - 1] + 1, version1.length).length; ops++){
-        version0.splice(version0.length + ops, 0, version1.slice(array1[array1.length - 1] + 1, version1.length)[ops]);
+    if(version2.slice(array1[array1.length - 1] + 1, version2.length).length != 0){
+      for(let ops = 0; ops < version2.slice(array1[array1.length - 1] + 1, version2.length).length; ops++){
+        version0.splice(version0.length + ops, 0, version2.slice(array1[array1.length - 1] + 1, version2.length)[ops]);
       }
     }
   }
   return version0;
 }
 
-function endInsertVersion1(version0, version1, array0, array1){
-  if(version1.slice(array1[array1.length - 1] + 1, version1.length).length == 0){
+function endInsertVersion1(version0, version2, array0, array1){
+  if(version2.slice(array1[array1.length - 1] + 1, version2.length).length == 0){
     if(version0.slice(array0[array0.length - 1] + 1, version0.length).length != 0){
       for(let ops = 0; ops < version0.slice(array0[array0.length - 1] + 1, version0.length).length; ops++){
-        version1.splice(version1.length + ops, 0, version0.slice(array0[array0.length - 1] + 1, version0.length)[ops]);
+        version2.splice(version2.length + ops, 0, version0.slice(array0[array0.length - 1] + 1, version0.length)[ops]);
       }
     }
   }
-  return version1;
+  return version2;
 }
 
 function displayDelta(version){
@@ -179,32 +178,32 @@ function getCurrentVersion(num){
   return JSON.parse(version0);
 }
 
-function modifyVersion0(version0, version1){
-  let a0 = commonIndicesVersion0(version0, version1);
-  let a1 = commonIndicesVersion1(version0, version1);
-  let ver0 = beginningInsertVersion0(version0, version1, a0, a1);
+function modifyVersion0(version0, version2){
+  let a0 = commonIndicesVersion0(version0, version2);
+  let a1 = commonIndicesVersion1(version0, version2);
+  let ver0 = beginningInsertVersion0(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver0));
-  ver0 = middleInsertVersion0(version0, version1, a0, a1);
+  ver0 = middleInsertVersion0(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver0));
-  ver0 = endInsertVersion0(version0, version1, a0, a1);
+  ver0 = endInsertVersion0(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver0));
   return ver0;
 }
 
-function modifyVersion1(version0, version1){
-  let a0 = commonIndicesVersion0(version0, version1);
+function modifyVersion1(version0, version2){
+  let a0 = commonIndicesVersion0(version0, version2);
   //console.log(JSON.stringify(a0));
-  let a1 = commonIndicesVersion1(version0, version1);
+  let a1 = commonIndicesVersion1(version0, version2);
   //console.log(JSON.stringify(a1));
-  let ver1 = beginningInsertVersion1(version0, version1, a0, a1);
+  let ver1 = beginningInsertVersion1(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver1));
-  ver1 = middleInsertVersion1(version0, version1, a0, a1);
+  ver1 = middleInsertVersion1(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver1));
-  ver1 = endInsertVersion1(version0, version1, a0, a1);
+  ver1 = endInsertVersion1(version0, version2, a0, a1);
   //console.log(JSON.stringify(ver1));
   return ver1;
 }
-//Problem here to solve
+
 function getVersion0(){
   var output;
   Simplegit.checkout('master');
@@ -226,7 +225,7 @@ function merging(num, modifiedVersion){
         fs.writeFileSync('/home/srinjoy/temp/folder.json', JSON.stringify(modifiedVersion));
         return "done1";
       }
-      )
+    )
     .then(
       function(result){
         console.log(result);
@@ -249,9 +248,7 @@ function merging(num, modifiedVersion){
         .push('origin', 'master');
       }
     )
-    /*.branch(['-D', 'branch' + String(num)])
-      .checkout(['-b', 'branch' + String(num)])
-      .checkout('master');*/
+
   }
   
   if(num > 1){
@@ -271,7 +268,7 @@ function merging(num, modifiedVersion){
         fs.writeFileSync('/home/srinjoy/temp/folder.json', JSON.stringify(v0));
         return "done";
       }
-      )
+    )
     .then(
       function(result){
         console.log(result);
@@ -308,12 +305,6 @@ function merging(num, modifiedVersion){
         )
       }
     );
-
-    /*.then(
-      Simplegit
-      .branch(['-D', 'branch' + String(num)])
-      .checkout(['-b', 'branch' + String(num)])
-      .checkout('master'));*/
   }
 }
 
@@ -321,7 +312,7 @@ function exit(num){
   Simplegit.checkout('master').branch(['-D', 'branch' + String(num)]);
 }
 /**
- * Test all possible cases of version0 and version1
+ * Test all possible cases of version0 and version2
  */
 console.log("Test 1");
 console.log('      Testing commonIndicesVersion1');
@@ -338,7 +329,7 @@ const commonIndices_Test1_version0 = [
     ]
   }
 ];
-const commonIndices_Test1_version1 = [
+const commonIndices_Test1_version2 = [
   {
     ops: [
       {insert: 'Tomer'}
@@ -358,25 +349,23 @@ const commonIndices_Test1_version1 = [
 
 const commonIndices_Test1_array1 = [1,2];
 
-const commonIndices_Test1_result = JSON.stringify(commonIndicesVersion1(commonIndices_Test1_version0,commonIndices_Test1_version1));
+const commonIndices_Test1_result = JSON.stringify(commonIndicesVersion1(commonIndices_Test1_version0,commonIndices_Test1_version2));
 if (commonIndices_Test1_result === JSON.stringify(commonIndices_Test1_array1))
   console.log("   Test 1.1 succeeded");
 else {
   console.log("   Test 1.1 failed");
-  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version1)} should result with ${JSON.stringify(commonIndices_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndices_Test1_result)}`);
+  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version2)} should result with ${JSON.stringify(commonIndices_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndices_Test1_result)}`);
 }
-
-
 
 console.log('     Testing commonIndicesVersion0');
 const commonIndicesVersion0_Test1_array1 = [0,1];
 
-const commonIndicesVersion0_Test1_result = JSON.stringify(commonIndicesVersion0(commonIndices_Test1_version0,commonIndices_Test1_version1));
+const commonIndicesVersion0_Test1_result = JSON.stringify(commonIndicesVersion0(commonIndices_Test1_version0,commonIndices_Test1_version2));
 if (commonIndicesVersion0_Test1_result === JSON.stringify(commonIndicesVersion0_Test1_array1))
   console.log("   Test 1.2 succeeded");
 else {
   console.log("   Test 1.2 failed");
-  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version1)} should result with ${JSON.stringify(commonIndicesVersion0_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndicesVersion0_Test1_result)}`);
+  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version2)} should result with ${JSON.stringify(commonIndicesVersion0_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndicesVersion0_Test1_result)}`);
 }
 
 console.log('    Testing beginningInsertVersion0');
@@ -398,12 +387,94 @@ beginningInsertVersion0_Test1_result = [
   }
 ];
 
-const beginningInsertVersion0_Test1_version0 = beginningInsertVersion0(commonIndices_Test1_version0,commonIndices_Test1_version1,[0,1],[1,2]);
+const beginningInsertVersion0_Test1_version0 = beginningInsertVersion0(commonIndices_Test1_version0,commonIndices_Test1_version2,[0,1],[1,2]);
 if (JSON.stringify(beginningInsertVersion0_Test1_result) == JSON.stringify(beginningInsertVersion0_Test1_version0))
   console.log("   Test 1.3 succeeded");
 else {
   console.log("   Test 1.3 failed");
-  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version1)} should result with ${JSON.stringify(beginningInsertVersion0_Test1_result)}. Instead, we get ${JSON.stringify(beginningInsertVersion0_Test1_version0)}`);
+  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version2)} should result with ${JSON.stringify(beginningInsertVersion0_Test1_result)}. Instead, we get ${JSON.stringify(beginningInsertVersion0_Test1_version0)}`);
+}
+
+console.log("Test 1prime");
+console.log('      Testing commonIndicesVersion1');
+
+const Test1prime_version2 = [
+  {
+    ops: [
+      {insert: 'Sringjoy'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'yes'}
+    ]
+  }
+];
+const Test1prime_version0 = [
+  {
+    ops: [
+      {insert: 'Tomer'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'Sringjoy'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'yes'}
+    ]
+  }
+];
+
+const commonIndices_Test1prime_array1 = [0,1];
+
+const commonIndices_Test1prime_result = JSON.stringify(commonIndicesVersion1(Test1prime_version0,Test1prime_version2));
+if (commonIndices_Test1prime_result === JSON.stringify(commonIndices_Test1prime_array1))
+  console.log("   Test 1prime.1 succeeded");
+else {
+  console.log("   Test 1prime.1 failed");
+  console.log(`   Calling commonIndices on ${JSON.stringify(Test1prime_version0)} and ${JSON.stringify(Test1prime_version2)} 
+  should result with ${JSON.stringify(commonIndices_Test1prime_array1)}. Instead, we get ${JSON.stringify(commonIndices_Test1prime_result)}`);
+}
+
+console.log('     Testing commonIndicesVersion0');
+const commonIndicesVersion0_Test1prime_array0 = [1,2];
+
+const commonIndicesVersion0_Test1prime_result = JSON.stringify(commonIndicesVersion0(Test1prime_version0,Test1prime_version2));
+if (commonIndicesVersion0_Test1prime_result === JSON.stringify(commonIndicesVersion0_Test1prime_array0))
+  console.log("   Test 1prime.2 succeeded");
+else {
+  console.log("   Test 1prime.2 failed");
+  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version2)} should result with ${JSON.stringify(commonIndicesVersion0_Test1_array1)}. Instead, we get ${JSON.stringify(commonIndicesVersion0_Test1_result)}`);
+}
+
+console.log('    Testing beginningInsertVersion1');
+const beginningInsertVersion1_Test1prime_result = [
+  {
+    ops: [
+      {insert: 'Tomer'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'Sringjoy'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'yes'}
+    ]
+  }
+];
+
+const beginningInsertVersion1_Test1prime_test = beginningInsertVersion1(Test1prime_version0,Test1prime_version2,[1,2],[0,1]);
+if (JSON.stringify(beginningInsertVersion1_Test1prime_result) == JSON.stringify(beginningInsertVersion1_Test1prime_test))
+  console.log("   Test 1prime.3 succeeded");
+else {
+  console.log("   Test 1prime.3 failed");
+  console.log(`   Calling commonIndices on ${JSON.stringify(commonIndices_Test1_version0)} and ${JSON.stringify(commonIndices_Test1_version2)} should result with ${JSON.stringify(beginningInsertVersion0_Test1_result)}. Instead, we get ${JSON.stringify(beginningInsertVersion0_Test1_version0)}`);
 }
 
 console.log('Test 2');
@@ -421,7 +492,7 @@ const Test2_version0 = [
   }
 ];
 
-const Test2_version1 = [
+const Test2_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -438,23 +509,6 @@ const Test2_version1 = [
     ]
   }
 ];
-
-/*
-console.log('    Testing displayDelta');
-const displayDelta_test = [
-  {insert: 'a'},
-  {insert: '\n'},
-  {insert: 'b'},
-  {insert: '\n'}
-];
-const displayDelta_result = displayDelta(Test2_version0);
-if(JSON.stringify(displayDelta_result) == JSON.stringify(displayDelta_test)) console.log('   Test 2.2 succeeded');
-else {
-  console.log("   Test 2.2 failed");
-  console.log(`   Calling displayDelta on ${JSON.stringify(Test2_version0)} should result 
-  with ${JSON.stringify(displayDelta_test)}. Instead, we get ${JSON.stringify(displayDelta_result)}`);
-}
-*/
 
 console.log('    Testing middleInsertVersion0');
 const middleInsertVersion0_test = [
@@ -475,14 +529,76 @@ const middleInsertVersion0_test = [
   }
 ];
 
-const middleInsertVersion0_result = middleInsertVersion0(Test2_version0, Test2_version1, commonIndicesVersion0(Test2_version0,Test2_version1), commonIndicesVersion1(Test2_version0,Test2_version1));
+const middleInsertVersion0_result = middleInsertVersion0(Test2_version0, Test2_version2, commonIndicesVersion0(Test2_version0,Test2_version2), commonIndicesVersion1(Test2_version0,Test2_version2));
 if (JSON.stringify(middleInsertVersion0_test) == JSON.stringify(middleInsertVersion0_result))
   console.log("   Test 2.1 succeeded");
 else {
   console.log("   Test 2 failed");
-  console.log(`   Calling middleInsertVersion0 on ${JSON.stringify(Test2_version0)} and ${JSON.stringify(Test2_version1)} 
+  console.log(`   Calling middleInsertVersion0 on ${JSON.stringify(Test2_version0)} and ${JSON.stringify(Test2_version2)} 
   should result with ${JSON.stringify(middleInsertVersion0_test)}. Instead, we get ${JSON.stringify(middleInsertVersion0_result)}`);
 }
+
+console.log('Test 2prime');
+
+const Test2prime_version0 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+
+const Test2prime_version2 = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+
+console.log('    Testing middleInsertVersion0');
+const middleInsertVersion0prime_test = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'c'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+
+const middleInsertVersion0prime_result = middleInsertVersion0(Test2_version0, Test2_version2, commonIndicesVersion0(Test2_version0,Test2_version2), commonIndicesVersion1(Test2_version0,Test2_version2));
+if (JSON.stringify(middleInsertVersion0prime_test) == JSON.stringify(middleInsertVersion0prime_result))
+  console.log("   Test 2prime.1 succeeded");
+else {
+  console.log("   Test 2prime failed");
+  console.log(`   Calling middleInsertVersion0 on ${JSON.stringify(Test2prime_version0)} and ${JSON.stringify(Test2prime_version2)} 
+  should result with ${JSON.stringify(middleInsertVersion0prime_test)}. Instead, we get ${JSON.stringify(middleInsertVersion0prime_result)}`);
+}
+
 
 console.log('Test 3');
 console.log('     Testing commonIndicesVersion0');
@@ -498,7 +614,7 @@ const Test3_version0 = [
     ]
   }
 ];
-const Test3_version1 = [
+const Test3_version2 = [
   {
     ops: [
       {insert: 'Tomer'}
@@ -507,7 +623,7 @@ const Test3_version1 = [
 ];
 
 const test3_1_test = [];
-const test3_1_result = commonIndicesVersion0(Test3_version0, Test3_version1);
+const test3_1_result = commonIndicesVersion0(Test3_version0, Test3_version2);
 
 if(JSON.stringify(test3_1_test) == JSON.stringify(test3_1_result)){
   console.log('     Test 3.1 succeeded');
@@ -519,7 +635,7 @@ else {
 }
 
 const test3_2_test = [];
-const test3_2_result = commonIndicesVersion1(Test3_version0, Test3_version1);
+const test3_2_result = commonIndicesVersion1(Test3_version0, Test3_version2);
 
 console.log('     Testing commonIndicesVersion1');
 if(JSON.stringify(test3_2_test) == JSON.stringify(test3_2_result)){
@@ -547,7 +663,7 @@ const Test4_version0 = [
     ]
   }
 ];
-const Test4_version1 = [
+const Test4_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -571,27 +687,27 @@ const Test4_version1 = [
 ];
 
 const test4_1_test = [0, 1];
-const test4_1_result = commonIndicesVersion0(Test4_version0, Test4_version1);
+const test4_1_result = commonIndicesVersion0(Test4_version0, Test4_version2);
 
 if(JSON.stringify(test4_1_test) == JSON.stringify(test4_1_result)){
   console.log('     Test 4.1 succeeded');
 }
 else {
   console.log("   Test 4.1 failed");
-  console.log(`   Calling commonIndicesVersion0 on ${JSON.stringify(Test4_version0)} and ${JSON.stringify(Test4_version1)} 
+  console.log(`   Calling commonIndicesVersion0 on ${JSON.stringify(Test4_version0)} and ${JSON.stringify(Test4_version2)} 
   should result with ${JSON.stringify(test4_1_test)}. Instead, we get ${JSON.stringify(test4_1_result)}`);
 }
 
 console.log('     Testing commonIndicesVersion1');
 const test4_2_test = [0, 2];
-const test4_2_result = commonIndicesVersion1(Test4_version0, Test4_version1);
+const test4_2_result = commonIndicesVersion1(Test4_version0, Test4_version2);
 
 if(JSON.stringify(test4_1_test) == JSON.stringify(test4_1_result)){
   console.log('     Test 4.2 succeeded');
 }
 else {
   console.log("   Test 4.2 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test4_version0)} and ${JSON.stringify(Test4_version1)} 
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test4_version0)} and ${JSON.stringify(Test4_version2)} 
   should result with ${JSON.stringify(test4_2_test)}. Instead, we get ${JSON.stringify(test4_2_result)}`);
 }
 
@@ -613,7 +729,7 @@ const Test5_version0 = [
     ]
   }
 ];
-const Test5_version1 = [
+const Test5_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -637,28 +753,28 @@ const Test5_version1 = [
 ];
 console.log('     Testing commonIndicesVersion1');
 const test5_1test = [0, 2, 3];
-const test5_1result = commonIndicesVersion1(Test5_version0, Test5_version1);
+const test5_1result = commonIndicesVersion1(Test5_version0, Test5_version2);
 
 if(JSON.stringify(test5_1test) == JSON.stringify(test5_1result)){
   console.log('     Test 5.1 succeeded');
 }
 else {
   console.log("   Test 5.1 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test5_version0)} and ${JSON.stringify(Test5_version1)} 
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test5_version0)} and ${JSON.stringify(Test5_version2)} 
   should result with ${JSON.stringify(test5_1test)}. Instead, we get ${JSON.stringify(test5_1result)}`);
 }
 
 console.log('     Testing commonIndicesVersion0');
 const test5_2test = [0, 1, 2];
-const test5_2result = commonIndicesVersion0(Test5_version0, Test5_version1);
+const test5_2result = commonIndicesVersion0(Test5_version0, Test5_version2);
 
 if(JSON.stringify(test5_2test) == JSON.stringify(test5_2result)){
   console.log('     Test 5.2 succeeded');
 }
 else {
-  console.log("   Test 5.1 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test5_version0)} and ${JSON.stringify(Test5_version1)} 
-  should result with ${JSON.stringify(test5_1test)}. Instead, we get ${JSON.stringify(test5_1result)}`);
+  console.log("   Test 5.2 failed");
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test5_version0)} and ${JSON.stringify(Test5_version2)} 
+  should result with ${JSON.stringify(test5_2test)}. Instead, we get ${JSON.stringify(test5_2result)}`);
 }
 
 
@@ -685,7 +801,7 @@ const Test6_version0 = [
     ]
   }
 ];
-const Test6_version1 = [
+const Test6_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -704,27 +820,27 @@ const Test6_version1 = [
 ];
 console.log('     Testing commonIndicesVersion0');
 const test6_1test = [0, 1];
-const test6_1result = commonIndicesVersion0(Test6_version0, Test6_version1);
+const test6_1result = commonIndicesVersion0(Test6_version0, Test6_version2);
 
 if(JSON.stringify(test6_1test) == JSON.stringify(test6_1result)){
   console.log('     Test 6.1 succeeded');
 }
 else {
   console.log("   Test 6.1 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version1)} 
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version2)} 
   should result with ${JSON.stringify(test6_1test)}. Instead, we get ${JSON.stringify(test6_1result)}`);
 }
 
 console.log('     Testing commonIndicesVersion1');
 const test6_2test = [0, 2];
-const test6_2result = commonIndicesVersion1(Test6_version0, Test6_version1);
+const test6_2result = commonIndicesVersion1(Test6_version0, Test6_version2);
 
 if(JSON.stringify(test6_2test) == JSON.stringify(test6_2result)){
   console.log('     Test 6.2 succeeded');
 }
 else {
   console.log("   Test 6.2 failed");
-  console.log(`   Calling commonIndicesVersion0 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version1)} 
+  console.log(`   Calling commonIndicesVersion0 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version2)} 
   should result with ${JSON.stringify(test6_2test)}. Instead, we get ${JSON.stringify(test6_2result)}`);
 }
 
@@ -752,12 +868,12 @@ const test6_3test = [
   }
 ];
 
-const test6_3result = beginningInsertVersion0(Test6_version0, Test6_version1, commonIndicesVersion0(Test6_version0, Test6_version1), commonIndicesVersion1(Test6_version0, Test6_version1));
+const test6_3result = beginningInsertVersion0(Test6_version0, Test6_version2, commonIndicesVersion0(Test6_version0, Test6_version2), commonIndicesVersion1(Test6_version0, Test6_version2));
 if (JSON.stringify(test6_3test) == JSON.stringify(test6_3result))
   console.log("     Test 6.3 succeeded");
 else {
   console.log("     Test 6.3 failed");
-  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version1)} 
+  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test6_version0)} and ${JSON.stringify(Test6_version2)} 
   should result with ${JSON.stringify(test6_3test)}. Instead, we get ${JSON.stringify(test6_3result)}`);
 }
 
@@ -784,7 +900,7 @@ const Test7_version0 = [
     ]
   }
 ];
-const Test7_version1 = [
+const Test7_version2 = [
   {
     ops: [
       {insert: 'c'}
@@ -803,27 +919,27 @@ const Test7_version1 = [
 ];
 console.log('     Testing commonIndicesVersion1');
 const test7_1test = [0, 2];
-const test7_1result = commonIndicesVersion1(Test7_version0, Test7_version1);
+const test7_1result = commonIndicesVersion1(Test7_version0, Test7_version2);
 
 if(JSON.stringify(test7_1test) == JSON.stringify(test7_1result)){
   console.log('     Test 7.1 succeeded');
 }
 else {
   console.log("   Test 7.1 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version1)} 
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version2)} 
   should result with ${JSON.stringify(test7_1test)}. Instead, we get ${JSON.stringify(test7_1result)}`);
 }
 
 console.log('     Testing commonIndicesVersion0');
 const test7_2test = [0, 1];
-const test7_2result = commonIndicesVersion0(Test7_version0, Test7_version1);
+const test7_2result = commonIndicesVersion0(Test7_version0, Test7_version2);
 
 if(JSON.stringify(test7_2test) == JSON.stringify(test7_2result)){
   console.log('     Test 7.2 succeeded');
 }
 else {
   console.log("   Test 7.2 failed");
-  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version1)} 
+  console.log(`   Calling commonIndicesVersion1 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version2)} 
   should result with ${JSON.stringify(test7_2test)}. Instead, we get ${JSON.stringify(test7_2result)}`);
 }
 
@@ -834,6 +950,7 @@ const test7_3test = [
       {insert: 'c'}
     ]
   },
+  
   {
     ops: [
       {insert: 'c'}
@@ -851,12 +968,12 @@ const test7_3test = [
   }
 ];
 
-const test7_3result = beginningInsertVersion0(Test7_version0, Test7_version1, commonIndicesVersion0(Test7_version0, Test7_version1), commonIndicesVersion1(Test7_version0, Test7_version1));
+const test7_3result = beginningInsertVersion0(Test7_version0, Test7_version2, commonIndicesVersion0(Test7_version0, Test7_version2), commonIndicesVersion1(Test7_version0, Test7_version2));
 if (JSON.stringify(test7_3test) == JSON.stringify(test7_3result))
   console.log("     Test 7.3 succeeded");
 else {
   console.log("     Test 7.3 failed");
-  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version1)} 
+  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version2)} 
   should result with ${JSON.stringify(test7_3test)}. Instead, we get ${JSON.stringify(test7_3result)}`);
 }
 
@@ -879,12 +996,12 @@ const test7_4test = [
   }
 ];
 
-const test7_4result = beginningInsertVersion1(Test7_version0, Test7_version1, commonIndicesVersion0(Test7_version0, Test7_version1), commonIndicesVersion1(Test7_version0, Test7_version1));
+const test7_4result = beginningInsertVersion1(Test7_version0, Test7_version2, commonIndicesVersion0(Test7_version0, Test7_version2), commonIndicesVersion1(Test7_version0, Test7_version2));
 if (JSON.stringify(test7_4test) == JSON.stringify(test7_4result))
   console.log("     Test 7.4 succeeded");
 else {
   console.log("     Test 7.4 failed");
-  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version1)} 
+  console.log(`      Calling beginningInsertVersion0 on ${JSON.stringify(Test7_version0)} and ${JSON.stringify(Test7_version2)} 
   should result with ${JSON.stringify(test7_4test)}. Instead, we get ${JSON.stringify(test7_4result)}`);
 }
 
@@ -916,7 +1033,7 @@ const Test8_version0 = [
     ]
   }
 ];
-const Test8_version1 = [
+const Test8_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -953,15 +1070,14 @@ const test8_1test = [
   }
 ];
 
-const test8_1result = middleInsertVersion1(Test8_version0, Test8_version1, commonIndicesVersion0(Test8_version0, Test8_version1), commonIndicesVersion1(Test8_version0, Test8_version1));
+const test8_1result = middleInsertVersion1(Test8_version0, Test8_version2, commonIndicesVersion0(Test8_version0, Test8_version2), commonIndicesVersion1(Test8_version0, Test8_version2));
 if (JSON.stringify(test8_1test) == JSON.stringify(test8_1result))
   console.log("     Test 8.1 succeeded");
 else {
   console.log("     Test 8.1 failed");
-  console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test8_version0)} and ${JSON.stringify(Test8_version1)} 
+  console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test8_version0)} and ${JSON.stringify(Test8_version2)} 
   should result with ${JSON.stringify(test8_1test)}. Instead, we get ${JSON.stringify(test8_1result)}`);
 }
-//console.log([].length);
 console.log('Test 9');
 const Test9_version0 = [
   {
@@ -980,7 +1096,7 @@ const Test9_version0 = [
     ]
   }
 ];
-const Test9_version1 = [
+const Test9_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -1036,12 +1152,12 @@ const test9_1test = [
     ]
   }
 ];
-const test9_1result = middleInsertVersion0(Test9_version0, Test9_version1, commonIndicesVersion0(Test9_version0, Test9_version1), commonIndicesVersion1(Test9_version0, Test9_version1));
+const test9_1result = middleInsertVersion0(Test9_version0, Test9_version2, commonIndicesVersion0(Test9_version0, Test9_version2), commonIndicesVersion1(Test9_version0, Test9_version2));
 if (JSON.stringify(test9_1test) == JSON.stringify(test9_1result))
   console.log("     Test 9.1 succeeded");
 else {
   console.log("     Test 9.1 failed");
-  console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test9_version0)} and ${JSON.stringify(Test9_version1)} 
+  console.log(`      Calling beginningInsertVersion1 on ${JSON.stringify(Test9_version0)} and ${JSON.stringify(Test9_version2)} 
   should result with ${JSON.stringify(test9_1test)}. Instead, we get ${JSON.stringify(test9_1result)}`);
 }
 
@@ -1058,7 +1174,7 @@ const Test10_version0 = [
     ]
   }
 ];
-const Test10_version1 = [
+const Test10_version2 = [
   {
     ops: [
       {insert: 'b'}
@@ -1073,23 +1189,23 @@ const Test10_version1 = [
 
 console.log('     Testing commonIndicesVersion0');
 const test10_1test = [0];
-const test10_1result = commonIndicesVersion0(Test10_version0, Test10_version1);
+const test10_1result = commonIndicesVersion0(Test10_version0, Test10_version2);
 if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
   console.log("     Test 10.1 succeeded");
 else {
   console.log("     Test 10.1 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version2)} 
   should result with ${JSON.stringify(test10_1test)}. Instead, we get ${JSON.stringify(test10_1result)}`);
 }
 
 console.log('     Testing commonIndicesVersion1');
 const test10_2test = [1];
-const test10_2result = commonIndicesVersion1(Test10_version0, Test10_version1);
+const test10_2result = commonIndicesVersion1(Test10_version0, Test10_version2);
 if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
   console.log("     Test 10.2 succeeded");
 else {
   console.log("     Test 10.2 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version2)} 
   should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
 }
 
@@ -1106,17 +1222,28 @@ const Test11_version0 = [
     ]
   }
 ];
-const Test11_version1 = [];
+const Test11_version2 = [];
 
 console.log('     Testing commonIndicesVersion0');
 const test11_1test = [];
-const test11_1result = commonIndicesVersion0(Test11_version0, Test11_version1);
+const test11_1result = commonIndicesVersion0(Test11_version0, Test11_version2);
 if (JSON.stringify(test11_1test) == JSON.stringify(test11_1result))
   console.log("     Test 11.1 succeeded");
 else {
-  console.log("     Test 10.1 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test11_version0)} and ${JSON.stringify(Test11_version1)} 
+  console.log("     Test 11.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test11_version0)} and ${JSON.stringify(Test11_version2)} 
   should result with ${JSON.stringify(test11_1test)}. Instead, we get ${JSON.stringify(test11_1result)}`);
+}
+
+console.log('     Testing commonIndicesVersion1');
+const test11_2test = [];
+const test11_2result = commonIndicesVersion1(Test11_version0, Test11_version2);
+if (JSON.stringify(test11_2test) == JSON.stringify(test11_2result))
+  console.log("     Test 11.2 succeeded");
+else {
+  console.log("     Test 11.2 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test11_version0)} and ${JSON.stringify(Test11_version2)} 
+  should result with ${JSON.stringify(test11_2test)}. Instead, we get ${JSON.stringify(test11_2result)}`);
 }
 
 console.log('Test 12');
@@ -1132,24 +1259,13 @@ const Test12_version0 = [
     ]
   }
 ];
-const Test12_version1 = [
+const Test12_version2 = [
   {
     ops: [
       {insert: 'a'}
     ]
   }
 ];
-
-console.log('     Testing commonIndicesVersion0');
-const test12_1test = [0];
-const test12_1result = commonIndicesVersion0(Test12_version0, Test12_version1);
-if (JSON.stringify(test12_1test) == JSON.stringify(test12_1result))
-  console.log("     Test 12.1 succeeded");
-else {
-  console.log("     Test 12.1 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test12_version0)} and ${JSON.stringify(Test12_version1)} 
-  should result with ${JSON.stringify(test12_1test)}. Instead, we get ${JSON.stringify(test12_1result)}`);
-}
 
 console.log('     Testing endInsertVersion1');
 const test12_2test = [
@@ -1164,65 +1280,24 @@ const test12_2test = [
     ]
   }
 ];
-const test12_2result = endInsertVersion1(Test12_version0, Test12_version1, [0], [0]);
+const test12_2result = endInsertVersion1(Test12_version0, Test12_version2, commonIndicesVersion0(Test12_version0, Test12_version2), commonIndicesVersion1(Test12_version0, Test12_version2));
 if (JSON.stringify(test12_2test) == JSON.stringify(test12_2result))
-  console.log("     Test 12.2 succeeded");
+  console.log("     Test 12.1 succeeded");
 else {
-  console.log("     Test 12.2 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test12_version0)} and ${JSON.stringify(Test12_version1)} 
+  console.log("     Test 12.1 failed");
+  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test12_version0)} and ${JSON.stringify(Test12_version2)} 
   should result with ${JSON.stringify(test12_2test)}. Instead, we get ${JSON.stringify(test12_2result)}`);
 }
 
-console.log('Test 14');
-const Test14_version0 = [
+console.log('Test 12prime');
+const Test12prime_version0 = [
   {
     ops: [
       {insert: 'a'}
     ]
-  },
-  {
-    ops: [
-      {insert: 'b'}
-    ]
   }
 ];
-const Test14_version1 = [
-  {
-    ops: [
-      {insert: 'b'}
-    ]
-  },
-  {
-    ops: [
-      {insert: 'c'}
-    ]
-  },
-];
-
-console.log('     Testing commonIndicesVersion0');
-const test14_1test = [1];
-const test14_1result = commonIndicesVersion0(Test14_version0, Test14_version1);
-if (JSON.stringify(test10_1test) == JSON.stringify(test10_1result))
-  console.log("     Test 14.1 succeeded");
-else {
-  console.log("     Test 14.1 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
-  should result with ${JSON.stringify(test10_1test)}. Instead, we get ${JSON.stringify(test10_1result)}`);
-}
-
-console.log('     Testing commonIndicesVersion1');
-const test14_2test = [0];
-const test14_2result = commonIndicesVersion1(Test14_version0, Test14_version1);
-if (JSON.stringify(test14_2test) == JSON.stringify(test14_2result))
-  console.log("     Test 14.2 succeeded");
-else {
-  console.log("     Test 14.2 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
-  should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
-}
-
-console.log('     Testing modifyVersion0');
-const test14_3test = [
+const Test12prime_version2 = [
   {
     ops: [
       {insert: 'a'}
@@ -1235,33 +1310,49 @@ const test14_3test = [
   },
   {
     ops: [
-      {insert: 'c'}
+      {insert: 'b'}
     ]
   }
 ];
-const test14_3result = modifyVersion0(Test14_version0, Test14_version1);
-if (JSON.stringify(test14_3test) == JSON.stringify(test14_3result))
-  console.log("     Test 14.3 succeeded");
-else {
-  console.log("     Test 14.3 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test10_version0)} and ${JSON.stringify(Test10_version1)} 
-  should result with ${JSON.stringify(test10_2test)}. Instead, we get ${JSON.stringify(test10_2result)}`);
-}
 
-console.log('     Testing modifyVersion0');
-const test14_4result = modifyVersion1(Test14_version0, Test14_version1);
-if (JSON.stringify(test14_3test) == JSON.stringify(test14_4result))
-  console.log("     Test 14.4 succeeded");
+console.log('     Testing endInsertVersion0');
+const test12prime_2test = [
+  {
+    ops: [
+      {insert: 'a'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  },
+  {
+    ops: [
+      {insert: 'b'}
+    ]
+  }
+];
+
+const test12prime_2result = endInsertVersion0(Test12prime_version0, Test12prime_version2, commonIndicesVersion0(Test12prime_version0, Test12prime_version2), commonIndicesVersion1(Test12prime_version0, Test12prime_version2));
+if (JSON.stringify(test12prime_2test) == JSON.stringify(test12prime_2result))
+  console.log("     Test 12prime.1 succeeded");
 else {
-  console.log("     Test 14.3 failed");
-  console.log(`      Calling commonIndicesVersion1 on ${JSON.stringify(Test14_version0)} and ${JSON.stringify(Test14_version1)} 
-  should result with ${JSON.stringify(test14_3test)}. Instead, we get ${JSON.stringify(test14_4result)}`);
+  console.log("     Test 12prime.1 failed");
+  console.log(`      Calling commonIndicesVersion0 on ${JSON.stringify(Test12prime_version0)} and ${JSON.stringify(Test12prime_version2)} 
+  should result with ${JSON.stringify(test12prime_2test)}. Instead, we get ${JSON.stringify(test12prime_2result)}`);
 }
 
 console.log("Test 13")
 
 const v1 = [{ops: [{insert :'a'}]}, {ops: [{insert :'b'}]}, {ops: [{insert :'d'}]}];
 const v2 = [{ops: [{insert :'a'}]}, {ops: [{insert :'c'}]}, {ops: [{insert :'b'}]}, {ops: [{insert :'e'}]}];
+
+/*To test test 13, make sure that the text stored in the versionNum.txt file is 0. 
+Then uncomment lines 1335 to 1338  then run the code twice to get 2 branches.
+Then comment these 4 lines and uncomment the last line, and make sure the code on that last line is merging(1, v1).
+Then run the code. Then replace the code merging(1, v1) by merging(2, v2).
+Then run the code again. Now open folder.json to see the delta stored. */
 
 //let n1 = getCurrentNumber();
 //console.log("This is1 " + n1);
